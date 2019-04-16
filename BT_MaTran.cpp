@@ -612,25 +612,30 @@ void xuatDinhDang(int mangddnn[][DINH], int n, int dinh)
 	printf("\nDuong di ngan nhat tu %c", convert(dinh));
 	for(int i=1; i<=n; i++)
 	{
+		
 		if(i != dinh)
 		{
 			int tam[DINH], sl=0;
 			printf("\n\tDen %c (do dai: %3d) la: ", convert(i), mangddnn[1][i]);
-			//printf("%2c - > " convert(dinh));
-			int d = i;
-			while(mangddnn[2][d] != dinh)
+			if(mangddnn[1][i]==VOCUNG) printf("Khong co duong di");
+			else
 			{
-				sl++;
-				tam[sl] = mangddnn[2][d];
-				
-				if(mangddnn[2][d] != dinh)	
+				//printf("%2c - > " convert(dinh));
+				int d = i;
+				while(mangddnn[2][d] != dinh)
 				{
-					d=mangddnn[2][d];
+					sl++;
+					tam[sl] = mangddnn[2][d];
+					
+					if(mangddnn[2][d] != dinh)	
+					{
+						d=mangddnn[2][d];
+					}
 				}
+				printf("%3c ->", convert(dinh));
+				xuatMangTam(tam, sl);
+				printf("%3c", convert(i));	
 			}
-			printf("%3c ->", convert(dinh));
-			xuatMangTam(tam, sl);
-			printf("%3c", convert(i));
 		}
 	}
 }
