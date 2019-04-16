@@ -1,3 +1,4 @@
+
 #include "stdio.h"
 #include "windows.h"
 #include "conio.h"
@@ -216,7 +217,10 @@ void xuat(int a[][DINH], int n)
 	{
 		for(int j=1; j<=n; j++)
 		{
-			printf("%3d", a[i][j]);
+			if(a[i][j] == 9999)
+				printf("%6s", "oo");
+			else
+				printf("%6d", a[i][j]);
 		}
 		printf("\n");
 	}
@@ -665,27 +669,14 @@ void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh)
 		}
 	}
 	
-	/*
-	printf("\nA:\n");
-	for(int i=1; i<=n; i++)
-	{
-		for(int j=1; j<=n; j++)
-		{
-			printf("%6d", A[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\nP:\n");
-	for(int i=1; i<=n; i++)
-	{
-		for(int j=1; j<=n; j++)
-		{
-			printf("%6d", P[i][j]);
-		}
-		printf("\n");
-	}*/
+	
+	printf("\nA0:\n");
+	xuat(A, n);
+	printf("\nP0:\n");
+	xuat(P, n);
 	
 	for (int k = 1;k <= n;k++)
+	{
 		for (int i = 1;i <= n; i++)
 			for (int j = 1;j <= n; j++)
 				if(A[i][k] + A[k][j] < A[i][j])
@@ -693,24 +684,10 @@ void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh)
 					A[i][j] = A[i][k] + A[k][j];
 					P[i][j] = P[i][k];
 				}
-		
-	printf("\nA:\n");
-	for(int i=1; i<=n; i++)
-	{
-		for(int j=1; j<=n; j++)
-		{
-			printf("%6d", A[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\nP:\n");
-	for(int i=1; i<=n; i++)
-	{
-		for(int j=1; j<=n; j++)
-		{
-			printf("%6d", P[i][j]);
-		}
-		printf("\n");
+		printf("\nA%d:\n", k);	
+		xuat(A, n);
+		printf("\nP%d:\n", k);	
+		xuat(P, n);
 	}
 	printf("\nDuong Di tu dinh %c", convert(dinh));
 	for(int i=1; i<=n; i++)
