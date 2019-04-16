@@ -718,15 +718,17 @@ void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh)
 		if(i!=dinh)
 		{
 			printf("\n\tDen dinh %c (Do dai bang %3d): ", convert(i), A[dinh][i]);
-			printf("%3c -> ", convert(dinh));
-			int tam = dinh;
-		
-			while(P[tam][i] != i)
-			{	
-				printf("%3c -> ", convert(P[tam][i]));
-				tam = P[tam][i];
-			}
-			printf("%3c ", convert(i));
+			if((P[dinh][i] == 0)) printf("Khong co duong di");
+			else{
+				printf("%3c -> ", convert(dinh));
+				int tam = dinh;
+				while(P[tam][i] != i)
+				{	
+					printf("%3c -> ", convert(P[tam][i]));
+					tam = P[tam][i];
+				}
+				printf("%3c ", convert(i));
+			}				
 		}
 	}
 }
