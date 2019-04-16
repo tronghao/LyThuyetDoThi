@@ -3,35 +3,37 @@
 #include "conio.h"
 #define VOCUNG 9999
 #define DADUYET -2
+#define DINH 20
 
 
-void docFile(char *fileName, int a[][10], int &n);
-void xuat(int a[][10], int n);
-void KT_DonDoThi(int a[][10], int n);
-void KT_DaDoThi(int a[][10], int n);
-void KT_Gia_Do_Thi(int a[][10], int n);
-void tenDoThi(int a[][10], int n);
-void kiemTraBac(int a[][10], int n);
-void DFS(int a[][10], int n, int num, bool mask[]);
-void BFS(int a[][10], int n, int num);
-void duongDiNganNhat(int a[][10], int n, int mangddnn[][10], int dinh);
-void xuatDinhDang(int mangddnn[][10], int n, int dinh);
+void docFile(char *fileName, int a[][DINH], int &n);
+void xuat(int a[][DINH], int n);
+void KT_DonDoThi(int a[][DINH], int n);
+void KT_DaDoThi(int a[][DINH], int n);
+void KT_Gia_Do_Thi(int a[][DINH], int n);
+void tenDoThi(int a[][DINH], int n);
+void kiemTraBac(int a[][DINH], int n);
+void DFS(int a[][DINH], int n, int num, bool mask[]);
+void BFS(int a[][DINH], int n, int num);
+void duongDiNganNhat(int a[][DINH], int n, int mangddnn[][DINH], int dinh);
+void xuatDinhDang(int mangddnn[][DINH], int n, int dinh);
+void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh);
 
 //---ham phu----
-int KT_DTVoHuong(int a[][10], int n);
-int KT_Don_VoHuong(int a[][10], int n);
-int KT_Don_CoHuong(int a[][10], int n);
-int KT_Da_VoHuong(int a[][10], int n);
-int KT_Da_CoHuong(int a[][10], int n);
-bool laGiaDoThi(int a[][10], int n);
+int KT_DTVoHuong(int a[][DINH], int n);
+int KT_Don_VoHuong(int a[][DINH], int n);
+int KT_Don_CoHuong(int a[][DINH], int n);
+int KT_Da_VoHuong(int a[][DINH], int n);
+int KT_Da_CoHuong(int a[][DINH], int n);
+bool laGiaDoThi(int a[][DINH], int n);
 char convert(int a);
 int convert(char a);
 void doiMangRaPhiaTruoc(int hangdoi[],int  &phanTuHangDoi);
-int chiSoCoGiaTriMin( int mangddnn[][10], int n);
+int chiSoCoGiaTriMin( int mangddnn[][DINH], int n);
 void xuatMangTam(int tam[], int n);
 
 
-void menu(int &lc, int a[][10], int n)
+void menu(int &lc, int a[][DINH], int n)
 {
 	for(;;)
 	{
@@ -45,6 +47,7 @@ void menu(int &lc, int a[][10], int n)
 		printf("\n7.Duyet DFS");
 		printf("\n8.Duyet BFS");
 		printf("\n9.Duong di ngan nhat");
+		printf("\n10.Duong di ngan nhat Thuat Toan Floyd");
 		printf("\nToi Muon: ");
 		scanf("%d", &lc);
 		if(lc==1)
@@ -98,7 +101,7 @@ void menu(int &lc, int a[][10], int n)
 		else if(lc==7)
 		{
 			system("cls");	
-			bool mask[10];
+			bool mask[DINH];
 			int dinh;		
 			for(int i=1; i<=n; i++)
 			{
@@ -119,7 +122,7 @@ void menu(int &lc, int a[][10], int n)
 		else if(lc==8)
 		{
 			system("cls");	
-			bool mask[10];
+			bool mask[DINH];
 			int dinh;		
 			for(int i=1; i<=n; i++)
 			{
@@ -141,7 +144,7 @@ void menu(int &lc, int a[][10], int n)
 		{
 			system("cls");	
 			
-			int mangddnn[4][10], dinh;
+			int mangddnn[4][DINH], dinh;
 			
 			do
 			{
@@ -155,13 +158,27 @@ void menu(int &lc, int a[][10], int n)
 			printf("\n Nhap phim bat ky de tiep tuc!");
 			getch();
 		}
+		else if(lc==10)
+		{
+			system("cls");	
+			int dinh;
+			do
+			{
+				printf("\nNhap dinh: ");
+				scanf("%d", &dinh);
+			}while(dinh <=0 || dinh >n);
+			ddnn_ThuatToanFloyd(a, n, dinh);
+			
+			printf("\n Nhap phim bat ky de tiep tuc!");
+			getch();
+		}
 		else break;
 	}
 }
 
 int main()
 {
-	int a[10][10], n, lc;
+	int a[DINH][DINH], n, lc;
 	char fileName[20]="content.txt";
 	docFile(fileName, a, n);
 	
@@ -171,7 +188,7 @@ int main()
 	return 0;
 }
 
-void docFile(char *fileName, int a[][10], int &n)
+void docFile(char *fileName, int a[][DINH], int &n)
 {
 	FILE *f = fopen(fileName, "rt");
 	if(f==NULL)
@@ -193,7 +210,7 @@ void docFile(char *fileName, int a[][10], int &n)
 	fclose(f);
 }
 
-void xuat(int a[][10], int n)
+void xuat(int a[][DINH], int n)
 {
 	for(int i=1; i<=n; i++)
 	{
@@ -205,7 +222,7 @@ void xuat(int a[][10], int n)
 	}
 }
 
-void KT_DonDoThi(int a[][10], int n)
+void KT_DonDoThi(int a[][DINH], int n)
 {
 	printf("\nMa Tran Ke:\n");
 	xuat(a, n);
@@ -227,7 +244,7 @@ void KT_DonDoThi(int a[][10], int n)
 	}
 }
 
-int KT_DTVoHuong(int a[][10], int n)
+int KT_DTVoHuong(int a[][DINH], int n)
 {
 	for(int i=1; i<=n; i++)
 	{
@@ -240,7 +257,7 @@ int KT_DTVoHuong(int a[][10], int n)
 	return 1;
 }
 
-int KT_Don_VoHuong(int a[][10], int n)
+int KT_Don_VoHuong(int a[][DINH], int n)
 {
 	for(int i=1; i<=n; i++)
 	{
@@ -258,7 +275,7 @@ int KT_Don_VoHuong(int a[][10], int n)
 	return 1;
 }
 
-int KT_Don_CoHuong(int a[][10], int n)
+int KT_Don_CoHuong(int a[][DINH], int n)
 {
 	for(int i=1; i<=n; i++)
 	{
@@ -273,7 +290,7 @@ int KT_Don_CoHuong(int a[][10], int n)
 
 
 
-void KT_DaDoThi(int a[][10], int n)
+void KT_DaDoThi(int a[][DINH], int n)
 {
 	printf("\nMa Tran Ke:\n");
 	xuat(a, n);
@@ -296,7 +313,7 @@ void KT_DaDoThi(int a[][10], int n)
 }
 
 
-int KT_Da_VoHuong(int a[][10], int n)
+int KT_Da_VoHuong(int a[][DINH], int n)
 {
 	int dem=0;
 	for(int i=1; i<=n; i++)
@@ -317,7 +334,7 @@ int KT_Da_VoHuong(int a[][10], int n)
 	else return 0;
 }
 
-int KT_Da_CoHuong(int a[][10], int n)
+int KT_Da_CoHuong(int a[][DINH], int n)
 {
 	int dem=0;
 	for(int i=1; i<=n; i++)
@@ -333,7 +350,7 @@ int KT_Da_CoHuong(int a[][10], int n)
 	else return 0;
 }
 
-bool laGiaDoThi(int a[][10], int n)
+bool laGiaDoThi(int a[][DINH], int n)
 {
 	int dem=0;
 	for(int i=1; i<=n; i++)
@@ -348,7 +365,7 @@ bool laGiaDoThi(int a[][10], int n)
 	else return true;	
 }
 
-void KT_Gia_Do_Thi(int a[][10], int n)
+void KT_Gia_Do_Thi(int a[][DINH], int n)
 {
 	printf("\nMa Tran Ke:\n");
 	xuat(a, n);
@@ -369,7 +386,7 @@ void KT_Gia_Do_Thi(int a[][10], int n)
 	}
 }
 
-void tenDoThi(int a[][10], int n)
+void tenDoThi(int a[][DINH], int n)
 {
 	printf("\nMa Tran Ke:\n");
 	xuat(a, n);
@@ -390,7 +407,7 @@ void tenDoThi(int a[][10], int n)
 	}
 }
 
-void kiemTraBac(int a[][10], int n)
+void kiemTraBac(int a[][DINH], int n)
 {
 	printf("\nMa Tran Ke:\n");
 	xuat(a, n);
@@ -424,7 +441,7 @@ void kiemTraBac(int a[][10], int n)
 	}
 }
 
-void DFS(int a[][10], int n, int num, bool mask[])
+void DFS(int a[][DINH], int n, int num, bool mask[])
 {
 	if(mask[num] == false)
 	{
@@ -438,7 +455,7 @@ void DFS(int a[][10], int n, int num, bool mask[])
 	}
 }
 
-void BFS(int a[][10], int n, int num)
+void BFS(int a[][DINH], int n, int num)
 {
 	bool duyeti[20];
 	int hangdoi[20], phanTuHangDoi, chiSoHienHanh=0;
@@ -513,9 +530,9 @@ int convert(char a)
 	}
 }
 
-void duongDiNganNhat(int a[][10], int n, int mangddnn[][10], int dinh)
+void duongDiNganNhat(int a[][DINH], int n, int mangddnn[][DINH], int dinh)
 {
-	int S[10], soPhanTu_S = 1;
+	int S[DINH], soPhanTu_S = 1;
 	//set gia tri ban dau
 	for(int i=1; i<=n; i++)
 	{
@@ -562,7 +579,7 @@ void duongDiNganNhat(int a[][10], int n, int mangddnn[][10], int dinh)
 	}	
 }
 
-int chiSoCoGiaTriMin( int mangddnn[][10], int n)
+int chiSoCoGiaTriMin( int mangddnn[][DINH], int n)
 {
 	int min=0;
 	for(int i=1; i<=n; i++)
@@ -585,7 +602,7 @@ int chiSoCoGiaTriMin( int mangddnn[][10], int n)
 	return min;
 }
 
-void xuatDinhDang(int mangddnn[][10], int n, int dinh)
+void xuatDinhDang(int mangddnn[][DINH], int n, int dinh)
 {
 	
 	printf("\nDuong di ngan nhat tu %c", convert(dinh));
@@ -593,7 +610,7 @@ void xuatDinhDang(int mangddnn[][10], int n, int dinh)
 	{
 		if(i != dinh)
 		{
-			int tam[10], sl=0;
+			int tam[DINH], sl=0;
 			printf("\n\tDen %c (do dai: %3d) la: ", convert(i), mangddnn[1][i]);
 			//printf("%2c - > " convert(dinh));
 			int d = i;
@@ -619,6 +636,98 @@ void xuatMangTam(int tam[], int n)
 	for(int i=n; i>0; i--)
 	{
 		printf("%3c ->", convert(tam[i]));
+	}
+}
+
+
+void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh)
+{
+	int A[DINH][DINH], P[DINH][DINH];
+	for(int i=1; i<=n; i++)
+	{
+		for(int j=1; j<=n; j++)
+		{
+			if(i==j)
+			{
+				A[i][j] = 0;
+				P[i][j] = 0;
+			}
+			else if(a[i][j] == 0)
+			{
+				A[i][j] = VOCUNG;
+				P[i][j] = 0;
+			}
+			else
+			{
+				A[i][j] = a[i][j];
+				P[i][j] = j;
+			}
+		}
+	}
+	
+	/*
+	printf("\nA:\n");
+	for(int i=1; i<=n; i++)
+	{
+		for(int j=1; j<=n; j++)
+		{
+			printf("%6d", A[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\nP:\n");
+	for(int i=1; i<=n; i++)
+	{
+		for(int j=1; j<=n; j++)
+		{
+			printf("%6d", P[i][j]);
+		}
+		printf("\n");
+	}*/
+	
+	for (int k = 1;k <= n;k++)
+		for (int i = 1;i <= n; i++)
+			for (int j = 1;j <= n; j++)
+				if(A[i][k] + A[k][j] < A[i][j])
+				{
+					A[i][j] = A[i][k] + A[k][j];
+					P[i][j] = P[i][k];
+				}
+		
+	printf("\nA:\n");
+	for(int i=1; i<=n; i++)
+	{
+		for(int j=1; j<=n; j++)
+		{
+			printf("%6d", A[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\nP:\n");
+	for(int i=1; i<=n; i++)
+	{
+		for(int j=1; j<=n; j++)
+		{
+			printf("%6d", P[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\nDuong Di tu dinh %c", convert(dinh));
+	for(int i=1; i<=n; i++)
+	{
+		if(i!=dinh)
+		{
+			printf("\n\tDen dinh %c (Do dai bang %3d): ", convert(i), A[dinh][i]);
+			printf("%3c -> ", convert(dinh));
+			int tam = dinh;
+		
+			while(P[tam][i] != i)
+			{	
+				printf("%3c -> ", convert(P[tam][i]));
+				tam = P[tam][i];
+			}
+			printf("%3c ", convert(i));
+		}
 	}
 }
 
