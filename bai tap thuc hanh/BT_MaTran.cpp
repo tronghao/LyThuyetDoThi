@@ -5,6 +5,8 @@
 #define VOCUNG 9999
 #define DADUYET -2
 #define DINH 20
+#include "time.h"
+#include "stdlib.h"
 
 
 void docFile(char *fileName, int a[][DINH], int &n);
@@ -36,6 +38,7 @@ int chiSoCoGiaTriMin( int mangddnn[][DINH], int n);
 void xuatMangTam(int tam[], int n);
 bool conDinh(int a[][DINH], int n, int dinh);
 bool coChuTrinhEuler(int a[][DINH], int n);
+void hacker();
 
 void menu(int &lc, int a[][DINH], int n)
 {
@@ -57,6 +60,7 @@ void menu(int &lc, int a[][DINH], int n)
 		scanf("%d", &lc);
 		if(lc==1)
 		{
+			hacker();
 			system("cls");
 			xuat(a, n);
 				
@@ -65,6 +69,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}			
 		else if(lc==2)
 		{		
+			hacker();
 			system("cls");			
 			KT_DonDoThi(a, n);
 			
@@ -72,7 +77,8 @@ void menu(int &lc, int a[][DINH], int n)
 			getch();
 		}
 		else if(lc==3)
-		{		
+		{	
+			hacker();	
 			system("cls");			
 			KT_DaDoThi(a, n);
 			
@@ -80,7 +86,8 @@ void menu(int &lc, int a[][DINH], int n)
 			getch();
 		}
 		else if(lc==4)
-		{		
+		{	
+			hacker();	
 			system("cls");			
 			KT_Gia_Do_Thi(a, n);
 			
@@ -89,6 +96,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}
 		else if(lc==5)
 		{
+			hacker();
 			system("cls");			
 			tenDoThi(a, n);
 			
@@ -97,6 +105,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}
 		else if(lc==6)
 		{
+			hacker();
 			system("cls");			
 			kiemTraBac(a, n);
 			
@@ -105,6 +114,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}
 		else if(lc==7)
 		{
+
 			system("cls");	
 			bool mask[DINH];
 			int dinh;		
@@ -118,7 +128,7 @@ void menu(int &lc, int a[][DINH], int n)
 				if(dinh < 1 || dinh > n) printf("Loi so dinh toi da la: %d\n", n);
 			}while(dinh < 1 || dinh > n);
 			
-			
+			hacker();
 			printf("\n=>DFS(%c) = ", dinh);
 			DFS(a, n, dinh, mask);
 			printf("\n Nhap phim bat ky de tiep tuc!");
@@ -126,6 +136,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}
 		else if(lc==8)
 		{
+
 			system("cls");	
 			bool mask[DINH];
 			int dinh;		
@@ -139,7 +150,7 @@ void menu(int &lc, int a[][DINH], int n)
 				if(dinh < 1 || dinh > n) printf("Loi so dinh toi da la: %d\n", n);
 			}while(dinh < 1 || dinh > n);
 			
-			
+			hacker();
 			printf("\n=>BFS(%d-%c) = ", dinh, convert(dinh));
 			BFS(a, n, dinh);
 			printf("\n Nhap phim bat ky de tiep tuc!");
@@ -156,7 +167,7 @@ void menu(int &lc, int a[][DINH], int n)
 				printf("\nNhap dinh: ");
 				scanf("%d", &dinh);
 			}while(dinh <=0 || dinh >n);
-			
+			hacker();
 			duongDiNganNhat( a, n, mangddnn, dinh);
 			xuatDinhDang(mangddnn, n, dinh);
 			
@@ -172,6 +183,7 @@ void menu(int &lc, int a[][DINH], int n)
 				printf("\nNhap dinh: ");
 				scanf("%d", &dinh);
 			}while(dinh <=0 || dinh >n);
+			hacker();
 			ddnn_ThuatToanFloyd(a, n, dinh);
 			
 			printf("\n Nhap phim bat ky de tiep tuc!");
@@ -186,6 +198,7 @@ void menu(int &lc, int a[][DINH], int n)
 				printf("\nNhap dinh: ");
 				scanf("%d", &dinh);
 			}while(dinh <=0 || dinh >n);
+			hacker();
 			chuTrinhEuler(a, n, dinh);
 			
 			printf("\n Nhap phim bat ky de tiep tuc!");
@@ -842,4 +855,18 @@ bool coChuTrinhEuler(int a[][DINH], int n)
 		}
 	}
 	return true;
+}
+
+void hacker()
+{
+	system("cls");
+	system("color 0A");
+	srand(time(NULL));
+	for(int i=0; i<=800;i++)
+	{
+		for(int j=0; j<=15; j++)
+			printf("%3d", rand()%99);
+	}
+	system("cls");
+	system("color 07");
 }
