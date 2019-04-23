@@ -19,6 +19,8 @@ void BFS(int a[][DINH], int n, int num);
 void duongDiNganNhat(int a[][DINH], int n, int mangddnn[][DINH], int dinh);
 void xuatDinhDang(int mangddnn[][DINH], int n, int dinh);
 void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh);
+void chuTrinhEuler(int a[][DINH], int n, int dinh);
+
 
 //---ham phu----
 int KT_DTVoHuong(int a[][DINH], int n);
@@ -32,7 +34,8 @@ int convert(char a);
 void doiMangRaPhiaTruoc(int hangdoi[],int  &phanTuHangDoi);
 int chiSoCoGiaTriMin( int mangddnn[][DINH], int n);
 void xuatMangTam(int tam[], int n);
-
+bool conDinh(int a[][DINH], int n, int dinh);
+bool coChuTrinhEuler(int a[][DINH], int n);
 
 void menu(int &lc, int a[][DINH], int n)
 {
@@ -49,6 +52,7 @@ void menu(int &lc, int a[][DINH], int n)
 		printf("\n8.Duyet BFS");
 		printf("\n9.Duong di ngan nhat");
 		printf("\n10.Duong di ngan nhat Thuat Toan Floyd");
+		printf("\n11.Chu Trinh Euler");
 		printf("\nToi Muon: ");
 		scanf("%d", &lc);
 		if(lc==1)
@@ -169,6 +173,20 @@ void menu(int &lc, int a[][DINH], int n)
 				scanf("%d", &dinh);
 			}while(dinh <=0 || dinh >n);
 			ddnn_ThuatToanFloyd(a, n, dinh);
+			
+			printf("\n Nhap phim bat ky de tiep tuc!");
+			getch();
+		}
+		else if(lc==11)
+		{
+			system("cls");	
+			int dinh;
+			do
+			{
+				printf("\nNhap dinh: ");
+				scanf("%d", &dinh);
+			}while(dinh <=0 || dinh >n);
+			chuTrinhEuler(a, n, dinh);
 			
 			printf("\n Nhap phim bat ky de tiep tuc!");
 			getch();
@@ -715,4 +733,113 @@ void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh)
 	}
 }
 
+void chuTrinhEuler(int a[][DINH], int n, int dinh)
+{
+	if(coChuTrinhEuler(a, n) == true)
+	{
+		int copy_a[DINH][DINH], S[DINH], so_phan_tu_S = 0, Output[DINH * 2], soPhanTu_ouput=0;
+	
+		//copy mang a sang copy_a
+		for(int i=1; i<=n; i++)
+		{
+			for(int j=1; j<=n; j++)
+			{
+				copy_a[i][j] = 	a[i][j];
+			}
+		}
+		
+		// dua dinh do vao S
+		so_phan_tu_S++;
+		S[so_phan_tu_S] = dinh;
+		//Tim chu trinh euler
+		printf("\nChu Trinh Euler la: ");
+		do{
+			//lay u la phan tu cuoi cung cua S
+			int u = S[so_phan_tu_S]; 
+			
+			if(conDinh(copy_a, n, u) == true)
+			{		
+				//Tim dinh ke va xu ly
+				for(int i=1; i<=n; i++)
+				{
+					if(copy_a[u][i] != 0)
+					{
+						so_phan_tu_S++;
+						S[so_phan_tu_S] = i;
+						
+						//danh dau duyet roi
+						copy_a[u][i] = 0;
+						copy_a[i][u] = 0;
+						break;
+					}
+				}
+							
+			}
+			else{
+				soPhanTu_ouput++;
+				Output[soPhanTu_ouput] = u;
+				so_phan_tu_S--;
+			}
+			
+		}while(so_phan_tu_S > 0);
+		
+		//xuat duong di
+		for(int i=soPhanTu_ouput; i>0; i--)
+		{
+			if(i!=1)
+				printf("%3c ->", convert(Output[i]));
+			else 	printf("%3c", convert(Output[i]));
+		}
+	}
+	else{
+		printf("\n\t[-Khong ton tai chu trinh Euler-]\n");
+	}
+}
 
+bool conDinh(int a[][DINH], int n, int dinh)
+{
+	for(int i=1; i<=n; i++)
+	{
+		if(a[dinh][i] != 0)
+			return true;
+	}
+	return false;
+}
+bool coChuTrinhEuler(int a[][DINH], int n)
+{
+	int dem = 0;
+	if(KT_DTVoHuong(a, n) == 1)
+	{		
+		for(int i=1; i<=n; i++)
+		{
+			dem=0;	
+			for(int j=1; j<=n; j++)
+			{
+				if(i==j)
+					dem += 2 * a[i][j];
+				else dem += a[i][j];
+			}
+			if(dem % 2 != 0)
+				return false;
+		}	
+	}
+	else
+	{
+		int bacVao=0, bacRa=0;
+		for(int i=1; i<=n; i++)
+		{
+			bacVao=0; bacRa=0;
+			
+			for(int j=1; j<=n; j++)
+			{
+				bacVao += a[j][i];
+				bacRa += a[i][j];
+			}
+			
+			if(bacVao != bacRa)
+				return false;
+		
+		}
+	}
+	return true;
+}
