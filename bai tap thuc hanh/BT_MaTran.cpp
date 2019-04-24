@@ -21,7 +21,7 @@ void BFS(int a[][DINH], int n, int num);
 void duongDiNganNhat(int a[][DINH], int n, int mangddnn[][DINH], int dinh);
 void xuatDinhDang(int mangddnn[][DINH], int n, int dinh);
 void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh);
-void chuTrinhEuler(int a[][DINH], int n);
+void chuTrinhEuler(int a[][DINH], int n, int dinh);
 
 
 //---ham phu----
@@ -38,8 +38,7 @@ int chiSoCoGiaTriMin( int mangddnn[][DINH], int n);
 void xuatMangTam(int tam[], int n);
 bool conDinh(int a[][DINH], int n, int dinh);
 bool coChuTrinhEuler(int a[][DINH], int n);
-bool coDuongDiEuler(int a[][DINH], int n);
-
+void hacker();
 
 void menu(int &lc, int a[][DINH], int n)
 {
@@ -61,6 +60,7 @@ void menu(int &lc, int a[][DINH], int n)
 		scanf("%d", &lc);
 		if(lc==1)
 		{
+			hacker();
 			system("cls");
 			xuat(a, n);
 				
@@ -69,6 +69,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}			
 		else if(lc==2)
 		{		
+			hacker();
 			system("cls");			
 			KT_DonDoThi(a, n);
 			
@@ -76,7 +77,8 @@ void menu(int &lc, int a[][DINH], int n)
 			getch();
 		}
 		else if(lc==3)
-		{		
+		{	
+			hacker();	
 			system("cls");			
 			KT_DaDoThi(a, n);
 			
@@ -84,7 +86,8 @@ void menu(int &lc, int a[][DINH], int n)
 			getch();
 		}
 		else if(lc==4)
-		{		
+		{	
+			hacker();	
 			system("cls");			
 			KT_Gia_Do_Thi(a, n);
 			
@@ -93,6 +96,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}
 		else if(lc==5)
 		{
+			hacker();
 			system("cls");			
 			tenDoThi(a, n);
 			
@@ -101,6 +105,7 @@ void menu(int &lc, int a[][DINH], int n)
 		}
 		else if(lc==6)
 		{
+			hacker();
 			system("cls");			
 			kiemTraBac(a, n);
 			
@@ -123,6 +128,7 @@ void menu(int &lc, int a[][DINH], int n)
 				if(dinh < 1 || dinh > n) printf("Loi so dinh toi da la: %d\n", n);
 			}while(dinh < 1 || dinh > n);
 			
+			hacker();
 			printf("\n=>DFS(%c) = ", dinh);
 			DFS(a, n, dinh, mask);
 			printf("\n Nhap phim bat ky de tiep tuc!");
@@ -144,6 +150,7 @@ void menu(int &lc, int a[][DINH], int n)
 				if(dinh < 1 || dinh > n) printf("Loi so dinh toi da la: %d\n", n);
 			}while(dinh < 1 || dinh > n);
 			
+			hacker();
 			printf("\n=>BFS(%d-%c) = ", dinh, convert(dinh));
 			BFS(a, n, dinh);
 			printf("\n Nhap phim bat ky de tiep tuc!");
@@ -160,7 +167,7 @@ void menu(int &lc, int a[][DINH], int n)
 				printf("\nNhap dinh: ");
 				scanf("%d", &dinh);
 			}while(dinh <=0 || dinh >n);
-
+			hacker();
 			duongDiNganNhat( a, n, mangddnn, dinh);
 			xuatDinhDang(mangddnn, n, dinh);
 			
@@ -176,7 +183,7 @@ void menu(int &lc, int a[][DINH], int n)
 				printf("\nNhap dinh: ");
 				scanf("%d", &dinh);
 			}while(dinh <=0 || dinh >n);
-
+			hacker();
 			ddnn_ThuatToanFloyd(a, n, dinh);
 			
 			printf("\n Nhap phim bat ky de tiep tuc!");
@@ -185,9 +192,14 @@ void menu(int &lc, int a[][DINH], int n)
 		else if(lc==11)
 		{
 			system("cls");	
-			
-
-			chuTrinhEuler(a, n);
+			int dinh;
+			do
+			{
+				printf("\nNhap dinh: ");
+				scanf("%d", &dinh);
+			}while(dinh <=0 || dinh >n);
+			hacker();
+			chuTrinhEuler(a, n, dinh);
 			
 			printf("\n Nhap phim bat ky de tiep tuc!");
 			getch();
@@ -734,20 +746,12 @@ void ddnn_ThuatToanFloyd(int a[][DINH], int n,int dinh)
 	}
 }
 
-
-void chuTrinhEuler(int a[][DINH], int n)
+void chuTrinhEuler(int a[][DINH], int n, int dinh)
 {
-	
 	if(coChuTrinhEuler(a, n) == true)
 	{
-		int copy_a[DINH][DINH], S[DINH], so_phan_tu_S = 0, Output[DINH * 2], soPhanTu_ouput=0, dinh;
-		
-		do
-		{
-			printf("\nNhap dinh: ");
-			scanf("%d", &dinh);
-		}while(dinh <=0 || dinh >n);
-		
+		int copy_a[DINH][DINH], S[DINH], so_phan_tu_S = 0, Output[DINH * 2], soPhanTu_ouput=0;
+	
 		//copy mang a sang copy_a
 		for(int i=1; i<=n; i++)
 		{
@@ -800,80 +804,8 @@ void chuTrinhEuler(int a[][DINH], int n)
 			else 	printf("%3c", convert(Output[i]));
 		}
 	}
-	else if(coDuongDiEuler(a, n)==true)
-	{
-		int dem = 0;
-		for(int i=1; i<=n; i++)
-		{
-			dem=0;	
-			for(int j=1; j<=n; j++)
-			{
-				if(i==j)
-					dem += 2 * a[i][j];
-				else dem += a[i][j];
-			}
-			if(dem % 2 != 0)
-			{
-				int copy_a[DINH][DINH], S[DINH], so_phan_tu_S = 0, Output[DINH * 2], soPhanTu_ouput=0, dinh;
-				dinh = i;
-				//copy mang a sang copy_a
-				for(int i=1; i<=n; i++)
-				{
-					for(int j=1; j<=n; j++)
-					{
-						copy_a[i][j] = 	a[i][j];
-					}
-				}
-				
-				// dua dinh do vao S
-				so_phan_tu_S++;
-				S[so_phan_tu_S] = dinh;
-				//Tim chu trinh euler
-				printf("\nDuong di Euler la: ");
-				do{
-					//lay u la phan tu cuoi cung cua S
-					int u = S[so_phan_tu_S]; 
-					
-					if(conDinh(copy_a, n, u) == true)
-					{		
-						//Tim dinh ke va xu ly
-						for(int i=1; i<=n; i++)
-						{
-							if(copy_a[u][i] != 0)
-							{
-								so_phan_tu_S++;
-								S[so_phan_tu_S] = i;
-								
-								//danh dau duyet roi
-								copy_a[u][i] = 0;
-								copy_a[i][u] = 0;
-								break;
-							}
-						}
-									
-					}
-					else{
-						soPhanTu_ouput++;
-						Output[soPhanTu_ouput] = u;
-						so_phan_tu_S--;
-					}
-					
-				}while(so_phan_tu_S > 0);
-				
-				//xuat duong di
-				for(int i=soPhanTu_ouput; i>0; i--)
-				{
-					if(i!=1)
-						printf("%3c ->", convert(Output[i]));
-					else 	printf("%3c", convert(Output[i]));
-				}
-			}
-		}	
-				
-	
-	}
 	else{
-		printf("\n\t[-Khong ton tai chu trinh va duong di Euler-]\n");
+		printf("\n\t[-Khong ton tai chu trinh Euler-]\n");
 	}
 }
 
@@ -924,47 +856,17 @@ bool coChuTrinhEuler(int a[][DINH], int n)
 	}
 	return true;
 }
-bool coDuongDiEuler(int a[][DINH], int n)
-{
-	int dem = 0, demle=0;
-	if(KT_DTVoHuong(a, n) == 1)
-	{		
-		for(int i=1; i<=n; i++)
-		{
-			dem=0;	
-			for(int j=1; j<=n; j++)
-			{
-				if(i==j)
-					dem += 2 * a[i][j];
-				else dem += a[i][j];
-			}
-			if(dem % 2 != 0)
-				demle++;
-			if(demle > 2) return false;
-		}	
-	}
-	else
-	{
-		int bacVao=0, bacRa=0;
-		for(int i=1; i<=n; i++)
-		{
-			bacVao=0; bacRa=0;
-			
-			for(int j=1; j<=n; j++)
-			{
-				bacVao += a[j][i];
-				bacRa += a[i][j];
-			}
-			
-			if(bacVao != bacRa)
-				if(bacVao== bacRa-1||bacRa == bacVao-1)
-					demle++;
-				else return false;
-			if(demle>1)
-				return false;
-		
-		}
-	}
-	return true;
-}
 
+void hacker()
+{
+	system("cls");
+	system("color 0A");
+	srand(time(NULL));
+	for(int i=0; i<=800;i++)
+	{
+		for(int j=0; j<=15; j++)
+			printf("%3d", rand()%99);
+	}
+	system("cls");
+	system("color 07");
+}
